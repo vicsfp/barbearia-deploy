@@ -1,18 +1,21 @@
-FROM ubuntu:latest AS build
+# Etapa de build
+FROM maven:3.8.4-openjdk-17-slim AS build
 
-RUN apt-get update
-RUN apt-get install openjdk-17-jdk -y
+# Copia todos os arquivos do projeto para o contêiner
 COPY . .
 
-RUN apt-get install maven -y 
-RUN mvn clean install -DskipTests
+# Executa o comando de build do Maven
+RUN mvn clean install -DskipTests=true
 
-FROM openjdk:17-jdk-slim 
+# Verifica o conteúdo do diretório target após o build
+RUN ls -l /target
+
+# Etapa final
+FROM openjdk:17-slim
 
 EXPOSE 8080
 
-RUN ls -l target
+# Copia o arquivo JAR do estágio de build para o contêiner final
+COPY --from=build /target/barbearia-gs-1.0.0.jar app.jar
 
-COPY --from=build target/barbearia-gs-0.0.1-SNAPSHOT.jar app.jar 
-
-ENTRYPOINT [ "java", "-jar", "app.jar" ]
+ENTRYPOINT ["java", "-jar", "app.jar"]
