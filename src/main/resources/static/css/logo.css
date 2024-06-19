@@ -1,0 +1,12 @@
+.logo {
+  width: 100px; /* Defina a largura desejada para a sua logo */
+  height: auto; /* Isso manterá a proporção da imagem */
+  border-radius: 50%;
+}
+
+  @media (max-width: 1366px) and (max-height: 768px) {
+    .logo {
+      width: 150px; /* Defina a largura desejada para a sua logo */
+      height: 150px; /* Defina a altura desejada para a sua logo */
+    }
+  }

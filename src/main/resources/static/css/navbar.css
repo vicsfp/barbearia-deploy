@@ -1,0 +1,309 @@
+
+.header {
+
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  background-color: #2e4067;
+  
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px; /* Adicione um preenchimento interno */
+}
+
+.raise:hover,
+.raise:focus {
+box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+transform: translateY(-0.25em);
+}
+
+.nav {
+
+  margin-top: 0;
+  display: flex;
+  max-width: max-content;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0;
+  z-index: 9999;
+  height: 150px;
+  
+}
+
+.list {
+  display:flex;
+  max-width: max-content;
+  gap: 1rem;
+  background-color: #2e4067;
+  ;
+  padding-top: 30px;
+  justify-content: center; /* Centralizar os itens horizontalmente */
+  align-items: center; /* Centralizar os itens verticalmente */
+
+}
+
+.centralizar{
+position: absolute;
+
+top: 50%;
+
+left: 50%;
+
+transform: translate(-50%, -50%);
+justify-content: center; /* Centralizar os itens horizontalmente */
+align-items: center; /* Centralizar os itens verticalmente */
+}
+
+
+.botao-container {
+margin-left:auto; /* Move o container do botão para a direita */
+margin-right: 50px;
+margin-top: -20px;
+}
+
+.botao{
+color:rgb(0, 0, 0);
+margin-right: 200px;
+display: block;
+margin-right: auto;
+margin-left: auto;
+width: 120px;
+height: 45px;
+border: none;
+border-radius:5cm;
+background-color: #fff;
+font-size: 17px;
+cursor: pointer;
+box-shadow: 1px 1px 0px #000000;
+}
+
+.botao:hover{
+transform: scale(1.05);
+}
+
+
+.botaoSair {
+display: flex; /* Use flexbox para alinhar o texto e o ícone */
+align-items: center; /* Centralize os itens verticalmente */
+justify-content: center; /* Centralize os itens horizontalmente */
+width: 0px; 
+height: 45px;
+border: none;
+border-radius: 5cm;
+font-size: 20px;
+cursor: pointer;
+margin-right: 25px;
+background-color: #2e4067;
+
+}
+
+.botaoSair:hover {
+transform: scale(1.10);
+}
+
+.icone-sair {
+display: block;
+margin-left: auto;
+margin-right: auto;
+width: 35px;
+height: 35px;
+background-color: #2e4067;
+
+}
+
+.list .personalizado {
+  text-decoration: none;
+  color:white;
+  padding: 0px 25px 10px 0px;
+  position: relative;
+  
+}
+
+.list .personalizado::after{
+content: "";
+width: 0%;
+height: 4px;
+background-color:white;
+position:absolute;
+bottom:0;
+left: 0;
+transition: 0.5s ease-in-out;
+}
+
+.list .personalizado:hover::after {
+width: 100%;
+
+}
+
+.sair-container {
+margin-top: -20px;
+}
+
+
+ul{
+  align-items: center; /* Centralizar os itens verticalmente */
+  justify-content: center; /* Centralizar os itens horizontalmente */
+  
+
+}
+
+ul li {
+  list-style-type: none;
+  padding: 0.5rem 2rem ;
+  margin-bottom: 0px;
+  font-size: 20px;
+  margin-top: -20px;
+
+}
+
+
+@media (max-width: 1366px) and (max-height: 768px) {
+  .header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    background-color: #ffffff;
+  }
+  
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px; /* Reduzindo o preenchimento interno */
+  }
+  
+  .raise:hover,
+  .raise:focus {
+    box-shadow: 0 0.25em 0.25em -0.2em var(--hover); /* Reduzindo o deslocamento e o tamanho da sombra */
+    transform: translateY(-0.125em); /* Reduzindo a distância da elevação */
+  }
+  
+  .nav {
+    margin-top: 0;
+    display: flex;
+    max-width: max-content;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0;
+    z-index: 9999;
+  }
+  
+  .list {
+    display:flex;
+    max-width: max-content;
+    gap: 0.5rem; /* Reduzindo o espaçamento entre os itens */
+    background-color: #ffffff;
+    padding-top: 40px; /* Reduzindo o espaçamento superior */
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .centralizar {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .botao-container {
+    margin-left:auto;
+    margin-right: 25px; /* Reduzindo a margem direita */
+    margin-top: -10px; /* Ajustando a margem superior */
+  }
+  
+  .botao {
+    margin-right: 100px; /* Reduzindo a margem direita */
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    width: 100px; /* Reduzindo o tamanho do botão */
+    height: 35px; /* Reduzindo o tamanho do botão */
+    border: none;
+    border-radius: 2cm; /* Reduzindo o raio da borda */
+    background-color: #e9ae23;
+    font-size: 14px; /* Reduzindo o tamanho da fonte */
+    cursor: pointer;
+    box-shadow: 1px 1px 0px #000000;
+  }
+  
+  .botao:hover {
+    transform: scale(1.05);
+  }
+  
+  .botaoSair {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 0px; 
+    height: 35px; /* Reduzindo a altura do botão */
+    border: none;
+    border-radius: 2cm;
+    background-color: #ffffff;
+    color: #ffffff;
+    font-size: 16px; /* Ajustando o tamanho da fonte */
+    cursor: pointer;
+    box-shadow: 1px 1px 0px #ffffff;
+    margin-right: 15px; /* Reduzindo a margem direita */
+  }
+  
+  .botaoSair:hover {
+    transform: scale(1.05);
+  }
+  
+  .icone-sair {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40px; /* Reduzindo o tamanho do ícone */
+    height: 40px; /* Reduzindo o tamanho do ícone */
+  }
+  
+  .list .personalizado {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    padding: 0px 15px 5px 0px; /* Reduzindo o espaçamento */
+    position: relative;
+  }
+  
+  .list .personalizado::after {
+    content: "";
+    width: 0%;
+    height: 3px; /* Reduzindo a altura da linha */
+    background-color: rgb(0, 0, 0);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: 0.5s ease-in-out;
+  }
+  
+  .list .personalizado:hover::after {
+    width: 100%;
+  }
+  
+  .sair-container {
+    margin-top: -10px; /* Ajustando a margem superior */
+  }
+  
+  ul {
+    align-items: center;
+    justify-content: center;
+  }
+  
+  ul li {
+    list-style-type: none;
+    padding: 0.5rem 1.5rem; /* Reduzindo o espaçamento */
+    margin-bottom: 0px;
+    font-size: 16px; /* Reduzindo o tamanho da fonte */
+  }
+  
+}

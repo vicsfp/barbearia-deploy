@@ -1,0 +1,121 @@
+<div th:replace="~{fragments/navbar}"></div>
+<!-- Custom fonts for this template-->
+<link rel="stylesheet" href="/css/navbar.css">
+<link rel="stylesheet" href="/css/Logo.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+<link
+ href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+ rel="stylesheet">
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<link href="/css/sb-admin-2.css" rel="stylesheet">
+<!-- Custom styles for this template-->
+<link href="/css/sweet-alert.css" rel="stylesheet">
+
+
+                <style>
+
+        .container-fluid {
+        max-width: fit-content; /* Remova a largura máxima fixa */
+        min-width: 0; /* Remova a largura mínima fixa */
+        margin: 150px auto;
+        padding: 0 15px;
+        
+       
+    }
+    .card-body {
+        max-width: 900px; /* O card-body se expandirá no máximo até o limite do container */
+        overflow-x: auto; /* Adiciona uma barra de rolagem horizontal se o conteúdo do card-body for muito amplo */
+    }
+    .table-responsive {
+        overflow-x: auto; /* Adiciona uma barra de rolagem horizontal se o conteúdo da tabela for muito amplo */
+    
+    }
+
+    @media (min-width: 1700px) {
+        .container-fluid {
+        max-width: 1000px; /* Limita a largura máxima do container a 1400px quando a tela for maior que 1700px */
+    }
+
+    .card-body {
+        max-width: 1400px; /* Limita a largura máxima do card-body a 1400px quando a tela for maior que 1700px */
+        overflow-x: auto; /* Adiciona uma barra de rolagem horizontal se o conteúdo do card-body for muito amplo */
+    }
+
+    .table-responsive {
+        overflow-x: auto; /* Adiciona uma barra de rolagem horizontal se o conteúdo da tabela for muito amplo */
+    }
+}
+
+
+                </style>
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid" style="padding-top: 70px; ">
+
+                    <!-- Page Heading -->
+                
+                    
+                    </p>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4" >
+                        <div class="card-header py-3" >
+                            <a href="/gerenciar/administradores/novo" class="btn btn-primary" style="margin-right: 20px;">Novo</a>
+                            <h6 class="m-0 font-weight-bold text-primary" style="display: inline-block;">Lista de administradores</h6> 
+                        </div>
+                        <div class="card-body" style="padding-left: 1rem; ">
+                            <div class="table-responsive" >
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead class="text-center">
+                                        <tr>
+                                            <th class="align-middle">Id</th>
+                                            <th class="align-middle">Nome</th>
+                                            <th class="align-middle">Email</th>
+                                            <th class="align-middle"></th>
+                                            <th class="align-middle"></th>
+                                        </tr>
+                                    </thead>
+                                   
+                                    <tbody class="text-center">
+                                        <tr th:each="administrador: ${administradores}">
+                                            <td th:text="${administrador.id}"/>
+                                            <td th:text="${administrador.nome}"/>
+                                            <td th:text="${administrador.email}"/>
+                                            <td>
+                                                <!-- Verifica se o ID do administrador é diferente de 1 -->
+                                                <a th:if="${administrador.id != 1}" class="edit" th:href="@{'/gerenciar/administradores/' + ${administrador.id}}" >
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <!-- Verifica se o ID do administrador é diferente de 1 -->
+                                                <a th:if="${administrador.id != 1}" class="delete" href="#" th:href="@{'/gerenciar/administradores/' + ${administrador.id} + '/excluir'} " 
+                                                onclick="ConfirmarExclusaoAdmin(event)">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <!--desbugando footer-->
+                 <section style="background-color: 0.0 ;   height: 40%;">
+                </section>
+                 <!-- Bootstrap core JavaScript-->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <script src="/js/sb-admin-2.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="/js/sweet-alert.js"></script>
+                <!-- /.container-fluid -->
+        <div th:replace="~{fragments/footer}"></div>

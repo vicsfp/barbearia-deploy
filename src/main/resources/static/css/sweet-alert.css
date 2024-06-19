@@ -1,0 +1,49 @@
+.swal2-title {
+    color: #05263A !important; /* Cor do título */
+  }
+  .swal2-content {
+    color: #000 !important; /* Cor do texto */
+  }
+  .swal2-confirm.swal2-styled {
+    background-color: #05263A !important;
+    color: #fff  !important;/* Cor do texto nos botões */
+  }
+
+  .swal2-cancel.swal2-styled{
+    background-color: #ff0000 !important;
+    color: #fff !important; /* Cor do texto nos botões */
+  }
+
+  .swal2-shown.swal2-height-auto {
+    background-color: rgba(0, 0, 0, 0.03) !important; /* Define a cor de fundo desejada com transparência */
+}
+.swal2-container.swal2-backdrop-show, .swal2-container.swal2-noanimation {
+    background: rgba(0,0,0,0.04) !important;
+}
+
+@media (max-width: 1366px) and (max-height: 768px) {
+
+  .swal2-title {
+    color: #e9ae23 !important; /* Cor do título */
+  }
+  .swal2-content {
+    color: #000 !important; /* Cor do texto */
+  }
+  .swal2-confirm.swal2-styled {
+    background-color: #e9ae23 !important;
+    color: #fff  !important;/* Cor do texto nos botões */
+  }
+
+  .swal2-cancel.swal2-styled{
+    background-color: #ff0000 !important;
+    color: #fff !important; /* Cor do texto nos botões */
+  }
+
+  .swal2-shown.swal2-height-auto {
+    background-color: rgba(0, 0, 0, 0.03) !important; /* Define a cor de fundo desejada com transparência */
+}
+.swal2-container.swal2-backdrop-show, .swal2-container.swal2-noanimation {
+    background: rgba(0,0,0,0.04) !important;
+}
+
+}

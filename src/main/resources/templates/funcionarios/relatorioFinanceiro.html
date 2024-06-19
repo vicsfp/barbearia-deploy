@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Barbearia GS</title>
+    <style>
+      .center-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding-top: 300px;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    <div th:replace="~{fragments/navbar}"></div>
+    <div class="container-fluid center-content">
+      <!DOCTYPE html>
+      <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+        <head>
+          <meta charset="UTF-8" />
+          <title>Relatório Financeiro</title>
+          <style>
+             body {
+              font-family: Arial, sans-serif;
+              margin: 0;
+              padding: 0;
+              background-color: #f8f9fc;
+            }
+
+            .container {
+              max-width: 800px;
+              margin: 0 auto;
+              padding: 20px;
+              background-color: #fff;
+              border-radius: 8px;
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+              overflow: auto;
+            }
+            .center-content{
+                display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding-top: 250px;
+        padding-bottom: 20%;
+            }
+
+            select {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+            h1 {
+                margin-top: 20px;
+              text-align: center;
+              margin-bottom: 20px;
+              color: #333;
+            }
+            .h2-span{
+                margin-top: 30px;
+                margin-bottom: 30px;
+                
+            }
+            h2{
+                text-align: center;
+                justify-content: center;
+            }
+
+            form {
+              text-align: center;
+              margin-bottom: 30px;
+              margin-top: 25px;
+            }
+
+            label {
+              font-weight: bold;
+              margin-right: 10px;
+            }
+
+            input[type="date"],
+            input[type="month"],
+            input[type="number"] {
+              padding: 8px;
+              font-size: 16px;
+              border: 1px solid #ccc;
+              border-radius: 4px;
+              margin-right: 10px;
+            }
+
+            button[type="submit"] {
+              padding: 8px 20px;
+              font-size: 16px;
+              background-color: #2e4067;
+              color: #fff;
+              border: none;
+              border-radius: 18px;
+              cursor: pointer;
+              transition: background-color 0.3s ease;
+            }
+
+            button[type="submit"]:hover {
+              background-color: #05263a;
+            }
+            .tabela {
+    margin: 20px auto; /* Margem automática nas laterais para centralizar */
+    overflow-x: auto; /* Adicione overflow-x para permitir rolagem horizontal se necessário */
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%; /* Garanta que a tabela ocupe toda a largura da div */
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+            th {
+              background-color: #f2f2f2;
+            }
+
+            .agendamentoo {
+              background-color: white;
+              margin-bottom: 10px;
+              
+            }
+            .container-victor{
+                margin-top: 15px;
+                padding-top: 50px;
+                padding-left: 50px;
+                padding-right: 50px;
+                padding-bottom: 50px;
+                background-color: white;
+                border-radius: 18px;
+            }
+            .divraul {
+        background-color: white;
+        margin-top: 20px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+      }
+          </style>
+        </head>
+        <body>
+      <div class="container-victor">
+        <div class="divraul">
+          <div class="agendamentoo">
+            <h1>Relatório Financeiro</h1>
+
+            <div th:if="${filterUsed}">
+              <h2 th:if="${filterValue != null}">
+                  <span th:text="' ' + (${filterType == 'day' ? 'Dia' : filterType == 'month' ? 'Mês' : 'Ano'}) + ' - ' + (${filterType == 'day' ? #temporals.format(filterValue, 'dd/MM/yyyy') : filterType == 'month' ? #temporals.format(filterValue, 'MM/yyyy') : filterValue})"></span>
+              </h2>
+              <h2 th:if="${filterValue == null}">Selecione um filtro para ver seus ganhos.</h2>
+          </div>
+
+            <form id="filterForm" action="/funcionarios/relatorio-financeiro" method="get">
+              <label for="filterType">Filtrar por:</label>
+              <select id="filterType" name="filterType" onchange="updateFilterFields()">
+                <option value="day">Dia</option>
+                <option value="month">Mês</option>
+                <option value="year">Ano</option>
+              </select>
+            
+              <input type="date" id="filterDay" name="filterDay" />
+<input type="month" id="filterMonth" name="filterMonth" style="display:none;" />
+<input type="number" id="filterYear" name="filterYear" min="1900" max="2100" style="display:none;" />
+
+            
+              <button type="submit" onclick="return validarFormulario()">Buscar</button>
+            </form>
+
+                 
+           
+            <div th:if="${#lists.isEmpty(agendamentos)}">
+              <h2 th:unless="${filterValue == null}">Você não teve ganhos durante esse período!</h2>
+            </div>
+
+            <div class="tabela" th:if="${not #lists.isEmpty(agendamentos)}">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Horário</th>
+                    <th>Cliente</th>
+                    <th>Serviço</th>
+                    <th>Preço</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="agendamento : ${agendamentos}">
+                    <td th:text="${#temporals.format(agendamento.data, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${agendamento.horario.horario}"></td>
+                    <td th:text="${agendamento.cliente.nome}"></td>
+                    <td th:text="${agendamento.servico.nome}"></td>
+                    <td th:if="${agendamento.servico.preco != 0}">
+                      <span th:text="${' R$' + #numbers.formatDecimal(agendamento.servico.preco, 0, 'COMMA', 2, 'COMMA')}"></span>
+                  </td>
+                  <td th:unless="${agendamento.servico.preco != 0}">
+                      <span>R$0,00</span>
+                  </td>
+                  </tr>
+                </tbody>
+              </table>
+              <td th:if="${totalValorServicos != 0}">
+                <h1>Total de ganhos: <span th:text="${' R$' + #numbers.formatDecimal(totalValorServicos, 0, 'COMMA', 2, 'COMMA')} "></span></h1>
+            </td>
+            <td th:unless="${totalValorServicos != 0}">
+                <h1>Total de ganhos: R$0,00</h1>
+            </td>
+            </div>
+          </div>
+
+          <script>
+            function updateFilterFields() {
+              var filterType = document.getElementById('filterType').value;
+              document.getElementById('filterDay').style.display = filterType === 'day' ? 'inline' : 'none';
+              document.getElementById('filterMonth').style.display = filterType === 'month' ? 'inline' : 'none';
+              document.getElementById('filterYear').style.display = filterType === 'year' ? 'inline' : 'none';
+            }
+          </script>
+          <script th:inline="javascript">
+            /*<![CDATA[*/
+            function validarFormulario() {
+                var filterType = document.getElementById('filterType').value;
+                var filterDay = document.getElementById('filterDay').value;
+                var filterMonth = document.getElementById('filterMonth').value;
+                var filterYear = document.getElementById('filterYear').value;
+        
+                if (filterType === 'day' && filterDay === '') {
+                    alert('Por favor, selecione uma data para o filtro de dia.');
+                    return false;
+                }
+                if (filterType === 'month' && filterMonth === '') {
+                    alert('Por favor, selecione um mês para o filtro de mês.');
+                    return false;
+                }
+                if (filterType === 'year' && filterYear === '') {
+                    alert('Por favor, selecione um ano para o filtro de ano.');
+                    return false;
+                }
+        
+                return true;
+            }
+            /*]]>*/
+        </script>
+        </body>
+      </html>
+    </div>
+  </div>
+</div>
+
+    <!--desbugando footer-->
+    <section style="background-color: 0.0 ;   height: 40%;"></section>
+    <!-- Bootstrap core JavaScript-->
+    <script src="/js/agendaFuncionario.js"></script>
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/js/sb-admin-2.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/password-eye.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="/js/sweet-alert.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </body>
+</html>

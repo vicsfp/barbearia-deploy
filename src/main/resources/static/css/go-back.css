@@ -1,0 +1,20 @@
+.go-back {
+    position: absolute;
+    top: 30px; /* Ajuste fino para a posição vertical */
+    left: 40px; /* Ajuste fino para a posição horizontal */
+    margin: 1.5rem;
+    color: #ffffff; /* Cor do texto */
+    font-size: 23px; /* Tamanho do ícone */
+    align-items: center;
+    text-decoration: none; /* Remove o sublinhado */
+}
+.go-back:hover{
+    text-decoration: none; /* Remove o sublinhado */
+    color: #1d79b3;
+}
+
+.go-back i {
+    font-size: 25px; 
+    margin-right: 7px; /* Espaçamento entre o ícone e o texto */
+   
+}

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Barbearia GS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <style>
+
+      .btn.danger{
+        width: 10px;
+      }
+      .center-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding-top: 300px;
+        padding-bottom: 300px;
+      }
+
+      .divraul {
+        background-color: white;
+        margin-top: 20px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+      }
+      h1 {
+        color: white;
+        background-color: #2e4067;
+        padding: 10px 10px;
+        border-radius: 18px;
+      }
+
+      .container-fluid center-content {
+        background-color: #2e4067 ;
+        
+      }
+      .ian {
+        margin-top: 5px;
+      }
+      bady {
+        background-color: #ac2bac;
+      }
+
+      
+            .desmarcar {
+              width: 26px;
+              height: 26px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border: none;
+              border-radius: 50%;
+              cursor: pointer;
+              transition: background-color 0.3s ease;
+              font-size: 18px;
+              margin-left: 20px;
+            }
+
+
+            .desmarcar {
+              background-color: #dc3545;
+              color: white;
+              text-decoration: none;
+              margin-left: 26px;
+              
+            }
+
+            .desmarcar:hover {
+              background-color: #77161f;
+              text-decoration: none;
+            }
+
+            .desmarcar i {
+              pointer-events: none;
+              color: white; /* Define a cor do ícone como branco */
+            }
+
+            .desmarcar:hover i {
+              color: white;
+              
+            }
+
+    
+    </style>
+    <!-- Seus estilos CSS -->
+  </head>
+
+  <body>
+    <div th:replace="~{fragments/navbar}"></div>
+ 
+    <div class="ian">
+      <div class="container-fluid center-content" style="margin-top: 5px">
+        <button
+          class="btn btn-primary btn-user btn-block"
+          style="width: 200px"
+          onclick="abrirModalSelecaoProfissional()"
+        >
+          Marcar novo horário
+        </button>
+        <div class="divraul">
+          <div class="container">
+            <h4 style="margin-top: 30px">Seus Agendamentos</h4>
+            <table class="table">
+              <thead>
+                <tr >
+                  <th>Data</th>
+                  <th>Horário</th>
+                  <th>Funcionário</th>
+                  <th>Serviço</th>
+                  <th>Desmarcar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Loop para exibir os agendamentos -->
+                <tr th:if="${#lists.isEmpty(agendamentos)}">
+                  <td colspan="5" class="text-center">
+                    Nenhum agendamento encontrado.
+                  </td>
+                </tr>
+                <tr
+                  style="border: 3px solid"
+                  th:each="agendamento : ${agendamentos}"
+                >
+                  <td
+                    th:text="${#temporals.format(agendamento.data, 'dd/MM/yyyy')}"
+                  ></td>
+                  <td th:text="${agendamento.horario.horario}"></td>
+                  <td th:text="${agendamento.funcionario.nome}"></td>
+                  <td th:text="${agendamento.servico.nome}"></td>
+                  <td>
+                    <a th:if="${podeDesmarcarMap[agendamento.id]}" class="desmarcar" th:href="@{'/clientes/' + ${agendamento.id} + '/desmarcar'}" onclick="desmarcarHorario(event)">
+                        <i class="fas fa-times-circle"></i>
+                    </a>
+                    <span th:unless="${podeDesmarcarMap[agendamento.id]}">Indisponível</span>
+                </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal de seleção de profissional -->
+      <div
+        class="modal fade"
+        id="modalSelecaoProfissional"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="modalSelecaoProfissionalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalSelecaoProfissionalLabel">
+                Novo Agendamento
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="selectProfissional">Escolha o Profissional</label>
+                  <select
+                    class="form-control"
+                    id="selectProfissional"
+                    onchange="habilitarBotao()"
+                  >
+                    <option value="">Escolha o Profissional</option>
+                    <option
+                      th:each="funcionario : ${funcionarios}"
+                      th:value="${funcionario.id}"
+                      th:text="${funcionario.nome + ' - ' + funcionario.cargo}"
+                    ></option>
+                  </select>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-primary btn-confirmar"
+                disabled
+                onclick="marcarProfissional()"
+              >
+                Confirmar
+              </button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal de seleção de servico -->
+      <div
+        class="modal fade"
+        id="modalSelecaoServico"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="modalSelecaoProfissionalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalSelecaoProfissionalLabel">
+                Novo Agendamento
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="selectServico">Escolha o Serviço</label>
+                  <select
+                    class="form-control"
+                    id="selectServico"
+                    onchange="habilitarBotao()"
+                  >
+                    <option value="">Escolha o Serviço</option>
+                    <option
+                      th:each="servico : ${servicos}"
+                      th:value="${servico.id}"
+                      th:text="${servico.nome}"
+                    ></option>
+                  </select>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-primary btn-confirmar"
+                disabled
+                onclick="marcarServico()"
+              >
+                Confirmar
+              </button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section style="background-color: aqua;   height: 40%;">
+    </section>
+  
+    <!-- Bootstrap core JavaScript-->
+    <script src="/js/agendaCliente.js"></script>
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/js/sb-admin-2.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/password-eye.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="/js/sweet-alert.js"></script>
+
+    <script>
+      // Função para abrir o modal de seleção de profissional
+      function abrirModalSelecaoProfissional() {
+        $("#modalSelecaoProfissional").modal("show");
+      }
+      // Função para marcar o profissional selecionado
+      function marcarProfissional() {
+        profissionalSelecionado =
+          document.getElementById("selectProfissional").value;
+        $("#modalSelecaoProfissional").modal("hide");
+        $("#modalSelecaoServico").modal("show");
+      }
+
+      // Função para marcar o serviço selecionado e redirecionar para a segunda view
+      function marcarServico() {
+        servicoSelecionado = document.getElementById("selectServico").value;
+
+        if (profissionalSelecionado && servicoSelecionado) {
+          // Redirecionar para a segunda página com os parâmetros na URL
+          window.location.href =
+            "/clientes/novo/agendamento?funcionarioId=" +
+            profissionalSelecionado +
+            "&servicoId=" +
+            servicoSelecionado;
+        } else {
+          console.error("Dados incompletos para criar o agendamento.");
+        }
+      }
+
+      // Função para habilitar botões conforme seleção
+      function habilitarBotao() {
+        var selectProfissional = document.getElementById("selectProfissional");
+        var selectServico = document.getElementById("selectServico");
+        var selectHorario = document.getElementById("selectHorario");
+        var btnConfirmarMarcarProfissional = document.querySelector(
+          "#modalSelecaoProfissional .btn-confirmar"
+        );
+        var btnConfirmarMarcarServico = document.querySelector(
+          "#modalSelecaoServico .btn-confirmar"
+        );
+        var btnConfirmarMarcarHorario = document.querySelector(
+          "#modalSelecaoHorarios .btn-confirmar"
+        );
+
+        // Habilitar o botão se um profissional foi selecionado
+        if (selectProfissional.value !== "") {
+          btnConfirmarMarcarProfissional.disabled = false;
+        } else {
+          btnConfirmarMarcarProfissional.disabled = true;
+        }
+
+        // Habilitar o botão se um serviço foi selecionado
+        if (selectServico.value !== "") {
+          btnConfirmarMarcarServico.disabled = false;
+        } else {
+          btnConfirmarMarcarServico.disabled = true;
+        }
+
+        // Habilitar o botão se um horário foi selecionado
+        if (selectHorario.value !== "") {
+          btnConfirmarMarcarHorario.disabled = false;
+        } else {
+          btnConfirmarMarcarHorario.disabled = true;
+        }
+      }
+
+      // Event listener para abrir o modal de seleção de profissional
+      $("#btnAbrirModalProfissional").on(
+        "click",
+        abrirModalSelecaoProfissional
+      );
+
+      // Event listener para marcar o profissional
+      $("#btnMarcarProfissional").on("click", marcarProfissional);
+
+      // Event listener para marcar o serviço
+      $("#btnMarcarServico").on("click", marcarServico);
+
+      // Event listener para marcar o horário
+      $("#btnMarcarHorario").on("click", function () {
+        var dataEscolhida = $("#dataEscolhida").text();
+        var horarioSelecionado = $("#selectHorario").val();
+        marcarHorario(dataEscolhida, horarioSelecionado);
+      });
+    </script>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/js/sb-admin-2.js"></script>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/js/sb-admin-2.js"></script>
+
+    
+
+    <!-- link do boxicon-->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/boxicons@latest/css/boxicons.min.css"
+    />
+   
+ 
+  </body>
+</html>

@@ -1,0 +1,25 @@
+<link href="/css/sb-admin-2.css" rel="stylesheet" />
+<link href="/css/sweet-alert.css" rel="stylesheet" />
+
+<div th:replace="~{fragments/navbar}"></div>
+
+<div th:replace="~{fragments/home}"></div>
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800"><span th:text="${nome}"></span></h1>
+  </div>
+</div>
+
+<div th:replace="~{fragments/footer}"></div>
+
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="/js/sb-admin-2.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/password-eye.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="/js/sweet-alert.js"></script>

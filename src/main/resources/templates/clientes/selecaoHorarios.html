@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Barbearia GS</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Estilo para o calendário */
+
+        
+    #calendar {
+      min-width: 700px;
+      margin: 0 auto;
+      padding-top: 40px;
+      margin-bottom: 200px;
+      
+
+    }
+
+    /* Remover imagem de fundo para a classe específica */
+    .no-bg-img {
+      background-image: none !important;
+      background-color: rgb(255, 251, 251);
+    }
+
+    h4 {
+      text-align: center;
+      /* Centralizar o texto */
+      margin-bottom: 20px;
+      /* Espaçamento inferior */
+    }
+
+    .center-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding-top: 200px;
+      
+
+    }
+
+    .container-fluid.center-content {
+      background-color: rgb(255, 251, 251);
+      height: 100%;
+    }
+    </style>
+
+</head>
+
+<body class="no-bg-img">
+
+    <div th:replace="~{fragments/navbar}"></div>
+    <div class="container-fluid center-content">
+        <h4>Escolha o dia e o horário de seu agendamento</h4>
+        <div id='calendar'></div>
+
+        <!-- Modal de Horários -->
+        <div class="modal fade" id="modalHorarios" tabindex="-1" role="dialog" aria-labelledby="modalHorariosLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalHorariosLabel">Escolha um horário disponível</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/clientes/novo/agendamento/selecao-horarios/criar" method="post">
+                            <div class="form-group">
+                                <label for="selectHorario">Escolha o horário para <span th:text="${dataFormatada}"></span></label>
+                                <select class="form-control" id="selectHorario" name="horarioId" required>
+                                    <option value="">Escolha o horário</option>
+                                    <option th:each="horario : ${horarios}" th:value="${horario[0]}" th:text="${horario[1]}"></option>
+                                </select>
+                            </div>
+                            <input type="hidden" id="funcionarioId" name="funcionarioId" th:value="${funcionario.id}" />
+                            <input type="hidden" id="servicoId" name="servicoId" th:value="${servico.id}" />
+                            <input type="hidden" id="dataAgendamento" name="dataAgendamento" th:value="${dataAgendamento}" />
+                            
+                            
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary btn-confirmar">Confirmar agendamento</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                            </div>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        
+    </script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/agendaCliente.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="/js/sweet-alert.js"></script>
+
+
+</body>
+
+</html>
