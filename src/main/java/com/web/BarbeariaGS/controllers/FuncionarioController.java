@@ -95,7 +95,7 @@ model.addAttribute("podeConcluirMap", podeConcluirMap);
         model.addAttribute("logado", true);
         model.addAttribute("funcionarioCookie", true);
         // Retorna a página de agendamentos do cliente
-        return "/funcionarios/index";
+        return "funcionarios/index";
     } else {
         // Se não for funcionario, redireciona para a página principal
         return "redirect:/";

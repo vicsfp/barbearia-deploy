@@ -101,7 +101,7 @@ public String agendamentosCliente(HttpServletRequest request, Model model) {
             model.addAttribute("clienteCookie", true);
             
             // Retorna a página de agendamentos do cliente
-            return "/clientes/index";
+            return "clientes/index";
         } else {
             // Se não for cliente, redireciona para a página principal
             return "redirect:/";

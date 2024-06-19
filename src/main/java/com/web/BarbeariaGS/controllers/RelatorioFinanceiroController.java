@@ -105,7 +105,7 @@ public class RelatorioFinanceiroController {
                 model.addAttribute("totalValorServicos", totalValorServicos);
                 model.addAttribute("logado", true);
                  model.addAttribute("funcionarioCookie", true);
-                return "/funcionarios/relatorioFinanceiro";
+                return "funcionarios/relatorioFinanceiro";
             }
             return "redirect:/";
         }
@@ -183,7 +183,7 @@ public class RelatorioFinanceiroController {
                 model.addAttribute("totalValorServicos", totalValorServicos);
                 model.addAttribute("logado", true);
                  model.addAttribute("clienteCookie", true);
-                return "/clientes/relatorioFinanceiro";
+                return "clientes/relatorioFinanceiro";
             }
             return "redirect:/";
         }
