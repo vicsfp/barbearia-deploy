@@ -66,7 +66,7 @@ List<Agendamento> findByDataAndFuncionarioOrderByDataWithStatus1(@Param("data") 
 @Query(value = "SELECT SUM(s.preco) " +
                  "FROM agendamentos a " +
                  "JOIN servicos s ON a.servico_id = s.id " +
-                 "WHERE a.status = 1 " +
+                 "WHERE a.status = true " +
                  "AND a.funcionario_id = :funcionarioId " +
                  "AND a.data = :data", nativeQuery = true)
   Double findTotalValueByFuncionarioAndData(@Param("funcionarioId") int funcionarioId, @Param("data") LocalDate data);
@@ -75,7 +75,7 @@ List<Agendamento> findByDataAndFuncionarioOrderByDataWithStatus1(@Param("data") 
 @Query(value = "SELECT * FROM agendamentos " +
     "WHERE funcionario_id = :funcionarioId " +
     "AND data BETWEEN :startDate AND :endDate " +
-    "AND status = 1", nativeQuery = true)
+    "AND status = true", nativeQuery = true)
 List<Agendamento> findByFuncionarioAndDateRange(@Param("funcionarioId") int funcionarioId,
                                      @Param("startDate") LocalDate startDate,
                                      @Param("endDate") LocalDate endDate);
@@ -84,7 +84,7 @@ List<Agendamento> findByFuncionarioAndDateRange(@Param("funcionarioId") int func
 @Query(value = "SELECT SUM(s.preco) " +
     "FROM agendamentos a " +
     "JOIN servicos s ON a.servico_id = s.id " +
-    "WHERE a.status = 1 " +
+    "WHERE a.status = true " +
     "AND a.funcionario_id = :funcionarioId " +
     "AND a.data BETWEEN :startDate AND :endDate", nativeQuery = true)
 Double findTotalValueByFuncionarioAndDateRange(@Param("funcionarioId") int funcionarioId,
@@ -99,7 +99,7 @@ List<Agendamento> findByDataAndClienteOrderByDataWithStatus1(@Param("data") Loca
 @Query(value = "SELECT SUM(s.preco) " +
                  "FROM agendamentos a " +
                  "JOIN servicos s ON a.servico_id = s.id " +
-                 "WHERE a.status = 1 " +
+                 "WHERE a.status = true " +
                  "AND a.cliente_id = :clienteId " +
                  "AND a.data = :data", nativeQuery = true)
 Double findTotalValueByClienteAndData(@Param("clienteId") int clienteId, @Param("data") LocalDate data);
@@ -108,7 +108,7 @@ Double findTotalValueByClienteAndData(@Param("clienteId") int clienteId, @Param(
 @Query(value = "SELECT * FROM agendamentos " +
     "WHERE cliente_id = :clienteId " +
     "AND data BETWEEN :startDate AND :endDate " +
-    "AND status = 1", nativeQuery = true)
+    "AND status = true", nativeQuery = true)
 List<Agendamento> findByClienteAndDateRange(@Param("clienteId") int clienteId,
                                      @Param("startDate") LocalDate startDate,
                                      @Param("endDate") LocalDate endDate);
@@ -117,7 +117,7 @@ List<Agendamento> findByClienteAndDateRange(@Param("clienteId") int clienteId,
 @Query(value = "SELECT SUM(s.preco) " +
     "FROM agendamentos a " +
     "JOIN servicos s ON a.servico_id = s.id " +
-    "WHERE a.status = 1 " +
+    "WHERE a.status = true " +
     "AND a.cliente_id = :clienteId " +
     "AND a.data BETWEEN :startDate AND :endDate", nativeQuery = true)
 Double findTotalValueByClienteAndDateRange(@Param("clienteId") int clienteId,
