@@ -2,14 +2,17 @@ package com.web.BarbeariaGS.controllers;
 
 import java.sql.Date;
 import java.time.LocalDate;
-
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -185,6 +188,57 @@ public String criarAgendamento(Model model, HttpServletRequest request,
         return "redirect:/login";
     }
 }
+
+@GetMapping("/funcionarios/agendamentos")
+public String getAgendamentosPorData(@RequestParam("data") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data,
+                                     Model model, HttpServletRequest request) {
+
+    // Verifica se o cookie de usuário existe e está dentro do prazo de validade
+    if (CookieService.getCookie(request, "usuarioId") != null) {
+        // Verifica se o usuário autenticado é um funcionário
+        if (CookieService.getCookie(request, "tipoUsuario").equals("funcionarioCookie")) {
+
+            // Obtém o ID do funcionário logado a partir do cookie
+            int funcionarioId = Integer.parseInt(CookieService.getCookie(request, "usuarioId"));
+
+            // Busca o funcionário pelo ID
+            Funcionario funcionario = funcionariosRepo.findById(funcionarioId)
+                .orElseThrow(() -> new RuntimeException("Funcionario não encontrado"));
+
+            // Busca os agendamentos do funcionário na data especificada
+            List<Agendamento> agendamentos = agendamentoRepo.findByDataAndFuncionarioOrderByData(data, funcionario);
+
+            // Cria um mapa para armazenar os atributos "podeConcluir" para cada agendamento
+            Map<Integer, Boolean> podeConcluirMap = new HashMap<>();
+            for (Agendamento agendamento : agendamentos) {
+                // Obtém a data e o horário do agendamento
+                LocalDate dataAgendamento = agendamento.getData();
+                LocalTime horarioAgendamento = LocalTime.parse(agendamento.getHorario().getHorario(), DateTimeFormatter.ofPattern("HH:mm"));
+
+                // Calcula a data e a hora limite para poder concluir o agendamento
+                LocalDateTime dataHoraLimite = LocalDateTime.of(dataAgendamento, horarioAgendamento).plusHours(1);
+
+                // Verifica se a data e a hora atual são após a data e hora limite
+                boolean podeConcluir = LocalDateTime.now().isAfter(dataHoraLimite);
+
+                // Adiciona o atributo "podeConcluir" para o agendamento no mapa
+                podeConcluirMap.put(agendamento.getId(), podeConcluir);
+            }
+
+            // Adiciona o mapa de atributos "podeConcluir" ao modelo
+            model.addAttribute("podeConcluirMap", podeConcluirMap);
+
+            // Adiciona os agendamentos ao modelo
+            model.addAttribute("agendamentos", agendamentos);
+            model.addAttribute("dataSelecionada", data);
+        }
+        return "funcionarios/index";
+    } else {
+        // Se o cookie não existe ou está expirado, redireciona para a página de login
+        return "redirect:/login";
+    }
+}
+
 
    //Rota para excluir cadastro
    @GetMapping("/clientes/{id}/desmarcar")

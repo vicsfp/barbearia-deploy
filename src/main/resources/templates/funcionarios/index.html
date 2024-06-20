@@ -226,27 +226,24 @@
                         <td th:text="${agendamento.servico.nome}"></td>
                         <td>
                           <!-- Verifica se o agendamento pode ser concluído com base no mapa podeConcluirMap -->
-            <th:block th:if="${podeConcluirMap[__${agendamento.id}__]}">
-              <form id="concluirForm" method="post" th:action="@{/funcionarios/{id}/marcar-concluido(id=${agendamento.id})}">
-                  <button class="concluida" onclick="marcarHorarioConcluido(event)">
-                      <i class="fas fa-check-circle"></i>
-                  </button>
-              </form>
-          </th:block>
-          <th:block th:unless="${podeConcluirMap[__${agendamento.id}__]}">
-              -----------
-          </th:block>
-                        </td>
-                        <td>
-                          <a
-                            class="desmarcar"
-                            href="#"
-                            th:href="@{'/funcionarios/' + ${agendamento.id} + '/desmarcar'}"
-                            onclick="desmarcarHorario(event)"
-                          >
-                            <i class="fas fa-times-circle"></i>
+                          <th:block th:if="${podeConcluirMap[__${agendamento.id}__]}">
+                              <form id="concluirForm" method="post" th:action="@{/funcionarios/{id}/marcar-concluido(id=${agendamento.id})}">
+                                  <input type="hidden" th:value="${agendamento.status}" required id="status" name="status"/>
+                                  <button class="concluida"  onclick="marcarHorarioConcluido(event)">
+                                      <i class="fas fa-check-circle"></i>
+                                  </button>
+                              </form>
+                          </th:block>
+                          <th:block th:unless="${podeConcluirMap[__${agendamento.id}__]}">
+                              -----------
+                          </th:block>
+                      </td>
+                      <td>
+                          <a class="desmarcar" href="#" th:href="@{'/funcionarios/' + ${agendamento.id} + '/desmarcar'}" onclick="desmarcarHorario(event)">
+                              <i class="fas fa-times-circle"></i>
                           </a>
-                        </td>
+                      </td>
+                      
                       </tr>
                     </tbody>
                   </table>
