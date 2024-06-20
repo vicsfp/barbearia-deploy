@@ -61,7 +61,8 @@ List<Object[]> findHorariosVagosByFuncionarioAndData(int funcionarioId, Date dat
 // Querys de relatorio financeiro para funcionario
 
 @Query("SELECT a FROM Agendamento a WHERE a.data = :data AND a.funcionario = :funcionario AND a.status = true ORDER BY a.data")
-List<Agendamento> findByDataAndFuncionarioOrderByDataWithStatus1(LocalDate data, Funcionario funcionario);
+List<Agendamento> findByDataAndFuncionarioOrderByDataWithStatus1(@Param("data") LocalDate data, @Param("funcionario") Funcionario funcionario);
+
 @Query(value = "SELECT SUM(s.preco) " +
                  "FROM agendamentos a " +
                  "JOIN servicos s ON a.servico_id = s.id " +
@@ -70,8 +71,8 @@ List<Agendamento> findByDataAndFuncionarioOrderByDataWithStatus1(LocalDate data,
                  "AND a.data = :data", nativeQuery = true)
   Double findTotalValueByFuncionarioAndData(@Param("funcionarioId") int funcionarioId, @Param("data") LocalDate data);
 
-    // Query to get appointments within a date range
-    @Query(value = "SELECT * FROM agendamentos " +
+// Query to get appointments within a date range
+@Query(value = "SELECT * FROM agendamentos " +
     "WHERE funcionario_id = :funcionarioId " +
     "AND data BETWEEN :startDate AND :endDate " +
     "AND status = 1", nativeQuery = true)
@@ -93,7 +94,7 @@ Double findTotalValueByFuncionarioAndDateRange(@Param("funcionarioId") int funci
 // Querys de relatorio financeiro para cliente
 
 @Query("SELECT a FROM Agendamento a WHERE a.data = :data AND a.cliente = :cliente AND a.status = true ORDER BY a.data")
-List<Agendamento> findByDataAndClienteOrderByDataWithStatus1(LocalDate data, Cliente cliente);
+List<Agendamento> findByDataAndClienteOrderByDataWithStatus1(@Param("data") LocalDate data, @Param("cliente") Cliente cliente);
 
 @Query(value = "SELECT SUM(s.preco) " +
                  "FROM agendamentos a " +

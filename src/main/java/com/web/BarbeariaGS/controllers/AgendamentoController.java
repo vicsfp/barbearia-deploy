@@ -227,7 +227,8 @@ public String getAgendamentosPorData(@RequestParam("data") @DateTimeFormat(iso =
 
             // Adiciona o mapa de atributos "podeConcluir" ao modelo
             model.addAttribute("podeConcluirMap", podeConcluirMap);
-
+            model.addAttribute("logado", true);
+            model.addAttribute("funcionarioCookie", true);
             // Adiciona os agendamentos ao modelo
             model.addAttribute("agendamentos", agendamentos);
             model.addAttribute("dataSelecionada", data);
